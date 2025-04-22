@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:story_app/core/common/localization.dart';
 import 'package:story_app/core/constants/app_route_name.dart';
 import 'package:story_app/core/widgets/custom_text_field.dart';
-// import 'register_screen.dart'; // jika kamu sudah buat RegisterScreen
+import 'package:story_app/features/auth/provider/auth_provider.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+    final localization = AppLocalizations.of(context);
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -34,8 +38,8 @@ class LoginScreen extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
-                        'Welcome Back',
+                      Text(
+                        localization!.welcomeBack,
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
@@ -43,59 +47,81 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 24),
-                      const CustomTextField(label: 'Email', icon: Icons.email),
+                      CustomTextField(
+                        label: 'Email',
+                        icon: Icons.email,
+                        onChanged: authProvider.setEmail,
+                      ),
                       const SizedBox(height: 16),
-                      const CustomTextField(
+                      CustomTextField(
                         label: 'Password',
                         icon: Icons.lock,
                         obscureText: true,
+                        onChanged: authProvider.setPassword,
                       ),
                       const SizedBox(height: 24),
                       SizedBox(
                         width: double.infinity,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF3C78D8),
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              AppRouteName.home,
-                              (Route<dynamic> route) => false,
-                            );
-                          },
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
+                        child:
+                            authProvider.isLoading
+                                ? const Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                                : ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF3C78D8),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 16,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  onPressed: () async {
+                                    await authProvider.login(context);
+                                    if (authProvider.loginResult != null) {
+                                      Navigator.pushNamedAndRemoveUntil(
+                                        context,
+                                        AppRouteName.home,
+                                        (Route<dynamic> route) => false,
+                                      );
+                                    } else if (authProvider.error != null) {
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(
+                                          content: Text(authProvider.error!),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  child: Text(
+                                    localization.login,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
                       ),
                       const SizedBox(height: 12),
                       TextButton(
                         onPressed: () {
                           // Aksi lupa password
                         },
-                        child: const Text("Forgot Password?"),
+                        child: Text(localization.forgotPassword),
                       ),
                       const SizedBox(height: 8),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text("Don't have an account?"),
+                          Text(localization.dontHaveAccount),
                           TextButton(
                             onPressed: () {
-                              // Arahkan ke halaman register
                               Navigator.pushNamed(
                                 context,
                                 AppRouteName.register,
                               );
                             },
-                            child: const Text(
-                              "Register",
+                            child: Text(
+                              localization.register,
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:story_app/features/home/widgets/description_widget.dart';
-import 'package:story_app/features/home/widgets/rounded_image.dart';
-import 'package:story_app/features/home/widgets/user_info_widget.dart';
+import 'package:story_app/features/story/widgets/description_widget.dart';
+import 'package:story_app/features/story/widgets/rounded_image.dart';
+import 'package:story_app/features/story/widgets/user_info_widget.dart';
 
 String formatDate(String dateStr) {
   final date = DateTime.parse(dateStr);

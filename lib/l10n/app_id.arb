@@ -1,6 +1,14 @@
 {
   "@@locale": "id",
   "title": "Cerita Harian",
+  "appBarDetail": "Cerita dari {name}",
+  "errorLogin": "wrong email or password",
+  "errorDontMatchPass": "Password dan konfirmasi password tidak cocok.",
   "logout": "Keluar",
-  "switchLanguage": "Bahasa"
+  "switchLanguage": "Bahasa",
+  "welcomeBack": "Selamat Datang Kembali",
+  "forgotPassword": "Lupa Kata Sandi?",
+  "login": "Masuk",
+  "register": "Daftar",
+  "dontHaveAccount": "Tidak Memiliki Akun?"
 }

@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:story_app/core/constants/app_route_name.dart';
 import 'package:story_app/core/widgets/custom_text_field.dart';
+import 'package:story_app/features/auth/provider/register_auth_provider.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final registerProvider = Provider.of<RegisterAuthProvider>(context);
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -41,23 +46,30 @@ class RegisterScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 24),
-                      const CustomTextField(
-                        label: 'Full Name',
+                      CustomTextField(
+                        label: 'Username',
                         icon: Icons.person,
+                        onChanged: registerProvider.setUsername,
                       ),
                       const SizedBox(height: 16),
-                      const CustomTextField(label: 'Email', icon: Icons.email),
+                      CustomTextField(
+                        label: 'Email',
+                        icon: Icons.email,
+                        onChanged: registerProvider.setEmail,
+                      ),
                       const SizedBox(height: 16),
-                      const CustomTextField(
+                      CustomTextField(
                         label: 'Password',
                         icon: Icons.lock,
                         obscureText: true,
+                        onChanged: registerProvider.setPassword,
                       ),
                       const SizedBox(height: 16),
-                      const CustomTextField(
+                      CustomTextField(
                         label: 'Confirm Password',
                         icon: Icons.lock_outline,
                         obscureText: true,
+                        onChanged: registerProvider.setPasswordRepeat,
                       ),
                       const SizedBox(height: 24),
                       SizedBox(
@@ -70,8 +82,27 @@ class RegisterScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
-                          onPressed: () {
-                            // Aksi register
+                          onPressed: () async {
+                            await registerProvider.register(context);
+                            if (registerProvider.error != null) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(registerProvider.error!),
+                                ),
+                              );
+                            } else if (registerProvider.responseModel != null) {
+                              Navigator.popAndPushNamed(
+                                context,
+                                AppRouteName.login,
+                              );
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    registerProvider.responseModel!.message,
+                                  ),
+                                ),
+                              );
+                            }
                           },
                           child: const Text(
                             'Register',
@@ -86,7 +117,7 @@ class RegisterScreen extends StatelessWidget {
                           const Text("Already have an account?"),
                           TextButton(
                             onPressed: () {
-                              Navigator.pop(context); // Kembali ke LoginScreen
+                              Navigator.pop(context);
                             },
                             child: const Text(
                               "Login",

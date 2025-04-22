@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
   final String label;
-  final IconData icon;
+  final IconData? icon;
   final bool obscureText;
+  final ValueChanged<String>? onChanged;
 
   const CustomTextField({
     super.key,
     required this.label,
-    required this.icon,
+    this.icon,
     this.obscureText = false,
+    this.onChanged,
   });
 
   @override
@@ -21,6 +23,7 @@ class CustomTextField extends StatelessWidget {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
         prefixIcon: Icon(icon),
       ),
+      onChanged: onChanged,
     );
   }
 }

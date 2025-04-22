@@ -1,7 +1,15 @@
 {
     "@@locale": "en",
     "title": "Daily Stories",
+    "appBarDetail" : "Story of {name}",
+    "errorLogin": "Email Atau password Salah",
+    "errorDontMatchPass" : "Password and password confirmation do not match.",
     "logout": "Logout",
-    "switchLanguage": "Language"
+    "switchLanguage": "Language", 
+    "welcomeBack" : "Welcome Back",
+    "forgotPassword": "Forgot Password?",
+    "login" : "Login",
+    "register" : "Register",
+    "dontHaveAccount" : "Don't have an account?"
   }
   

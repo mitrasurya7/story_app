@@ -10,17 +10,25 @@ class PlatformTheme {
     } else if (Platform.isWindows) {
       return _fluentTheme;
     }
-    return _materialTheme; // default Android
+    return _materialTheme;
   }
 
   static final ButtonStyle _defaultButtonStyle = ElevatedButton.styleFrom(
-    backgroundColor: const Color(0xFF3C78D8), // tombol biru
-    foregroundColor: Colors.white, // teks putih
-    padding: const EdgeInsets.symmetric(vertical: 16),
+    backgroundColor: const Color(0xFF3C78D8),
+    foregroundColor: Colors.white,
+    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
   );
 
+  static final AppBarTheme _appBarThemeMaterial = AppBarTheme(
+    backgroundColor: Color(0xFF3C78D8),
+    foregroundColor: Colors.white,
+    elevation: 0.5,
+    centerTitle: true,
+  );
+
   static final ThemeData _materialTheme = ThemeData(
+    appBarTheme: _appBarThemeMaterial,
     brightness: Brightness.light,
     primarySwatch: Colors.blue,
     fontFamily: 'Poppins',

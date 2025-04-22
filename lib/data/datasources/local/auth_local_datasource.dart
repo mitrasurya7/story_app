@@ -16,4 +16,14 @@ class AuthLocalDataSource {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(AppString.tokenKey);
   }
+
+  Future<String?> getLanguange() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(AppString.langKey);
+  }
+
+  Future<void> setLanguage(String lang) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(AppString.langKey, lang);
+  }
 }
